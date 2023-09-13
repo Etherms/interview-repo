@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview -Parsing JSON</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+</head>
+<body>
+  <div class="input-and-button">
+    <input type="text" id="textInput" placeholder="Enter URL" name="text">
+    <button onclick="saveText()" id="submitData" name="submitData">Save</button>
+  </div>
+    
+  <select id="textDropdown" ></select>
+    <div class="json-files d-flex ">
+      <div class="initial-json container" style="width:auto; height: auto; border:1px solid black ">
+          <pre id="json-value"></pre>
+      </div>
+      <div class="filtered-json container" style="width:auto; height: auto; border:1px solid black ">
+        <pre id="filtered-json-value"></pre>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script defer src="./local_storage.js"></script>
+    <script defer src="json_value.js"></script>
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.1/firebase-app.js";
+        import { getDatabase, set, ref, push, update } from "https://www.gstatic.com/firebasejs/10.3.1/firebase-database.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+      
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+          apiKey: "AIzaSyA60vpSO8Fr_S6_3CwBggd5lyitmLGEo-M",
+          authDomain: "interview-8b23e.firebaseapp.com",
+          projectId: "interview-8b23e",
+          storageBucket: "interview-8b23e.appspot.com",
+          messagingSenderId: "45404797439",
+          appId: "1:45404797439:web:1a82a09d0387318034cfca",
+          measurementId: "G-4XH9395D1K",
+          databaseURL: "https://interview-8b23e-default-rtdb.asia-southeast1.firebasedatabase.app"
+        };
+      
+        // Initialize Firebase
+          const app = initializeApp(firebaseConfig);
+          const database = getDatabase(app);
+          const submitData = document.getElementById('submitData');
+
+
+          const selectElement = document.getElementById("textDropdown");
+
+
+
+          submitData.addEventListener('click', (e) => {
+          var optionElement = document.querySelector('option[class="0"]');
+          var textValue = optionElement.textContent;
+
+          // Get a reference to the 'URL/' location and use 'push' to add a new value.
+            const urlRef = ref(database, 'URL/');
+            push(urlRef, {
+                URL: textValue,
+            })
+            .then(() => {
+                alert('Added URL to database: ' + textValue);
+            })
+            .catch((error) => {
+                alert(error);
+            });
+        });
+
+
+
+
+        submitData.addEventListener('click', (e) => {
+        var optionElement = document.querySelector('option[class="0"]');
+        var textValue = optionElement.textContent;
+
+        // URL Value being added
+        const urlRef = ref(database, 'URL/');
+        const newUrlRef = push(urlRef, {
+            URL: textValue,
+        });
+
+ 
+        });
+      </script>
+</body>
+</html>
